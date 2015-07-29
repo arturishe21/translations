@@ -70,23 +70,20 @@
                                     <td>__("{{$el->phrase}}")</td>
 
                                     <td style="text-align: left">
-
-                                     <?
-                                     $trans = $el->getTrans()
-                                     ?>
-                                      @foreach($langs as $k_lang=>$el_lang)
-                                        <p>
-                                             <img class="flag flag-{{$el_lang}}" style="margin-right: 5px">
-                                             <a data-type="textarea" class="lang_change" data-pk="{{$el->id}}"  data-name="{{$el_lang}}" data-original-title="{{__cms('Язык')}}: {{$el_lang}}">{{$trans[$el_lang]}}</a>
-                                         </p>
-                                      @endforeach
-
+                                         <?
+                                         $trans = $el->getTrans();
+                                         ?>
+                                          @foreach($langs as $k_lang=>$el_lang)
+                                            <p>
+                                                 <img class="flag flag-{{$el_lang}}" style="margin-right: 5px">
+                                                 <a data-type="textarea" class="lang_change" data-pk="{{$el->id}}"  data-name="{{$el_lang}}" data-original-title="{{__cms('Язык')}}: {{$el_lang}}">{{$trans[$el_lang]}}</a>
+                                             </p>
+                                          @endforeach
                                     </td>
                                     <td>
                                         <div class="btn-group hidden-phone pull-right">
                                             <a class="btn dropdown-toggle btn-xs btn-default"  data-toggle="dropdown"><i class="fa fa-cog"></i> <i class="fa fa-caret-down"></i></a>
                                             <ul class="dropdown-menu pull-right" id_rec ="{{$el->id}}">
-
                                                  <li>
                                                      <a onclick="Trans.doDelete({{$el->id}});"><i class="fa red fa-times"></i> {{__cms('Удалить')}}</a>
                                                  </li>
@@ -95,35 +92,35 @@
                                     </td>
                                 </tr>
                             @empty
-                                  <tr>
-                                     <td colspan="5"  class="text-align-center">
-                                         {{__cms('Пусто')}}
-                                      </td>
-                                 </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
+                          <tr>
+                             <td colspan="5"  class="text-align-center">
+                                 {{__cms('Пусто')}}
+                              </td>
+                         </tr>
+                    @endforelse
+                    </tbody>
+                </table>
 
-                  <div class="dt-toolbar-footer">
-                      <div class="col-sm-6 col-xs-12 hidden-xs">
-                          <div id="dt_basic_info" class="dataTables_info" role="status" aria-live="polite">
-                            {{__cms('Показано')}}
-                          <span class="txt-color-darken listing_from">{{$data->getFrom()}}</span>
-                            -
-                          <span class="txt-color-darken listing_to">{{$data->getTo()}}</span>
-                            {{__cms('из')}}
-                          <span class="text-primary listing_total">{{$data->getTotal()}}</span>
-                            {{__cms('записей')}}
-                          </div>
-                      </div>
-                      <div class="col-xs-12 col-sm-6">
-                        <div id="dt_basic_paginate" class="dataTables_paginate paging_simple_numbers">
-                            {{$data->links()}}
-                        </div>
+              <div class="dt-toolbar-footer">
+                  <div class="col-sm-6 col-xs-12 hidden-xs">
+                      <div id="dt_basic_info" class="dataTables_info" role="status" aria-live="polite">
+                        {{__cms('Показано')}}
+                      <span class="txt-color-darken listing_from">{{$data->getFrom()}}</span>
+                        -
+                      <span class="txt-color-darken listing_to">{{$data->getTo()}}</span>
+                        {{__cms('из')}}
+                      <span class="text-primary listing_total">{{$data->getTotal()}}</span>
+                        {{__cms('записей')}}
                       </div>
                   </div>
-                </div>
-          </div>
+                  <div class="col-xs-12 col-sm-6">
+                    <div id="dt_basic_paginate" class="dataTables_paginate paging_simple_numbers">
+                        {{$data->links()}}
+                    </div>
+                  </div>
+              </div>
+            </div>
+      </div>
 
     <!-- END MAIN CONTENT -->
 <div id="modal_wrapper">

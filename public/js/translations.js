@@ -1,38 +1,9 @@
 
-
-$.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-
-    if (results==null){
-        return null;
-    }
-    else{
-        return results[1] || 0;
-    }
-}
-
-
 var Trans = {
 
     show_list: function(page,  count_show){
-        Trans.load_ajax("show");
-
-        count_show = typeof count_show !== 'undefined' ? count_show : '20';
-
-        url_page = '?page=' + page+'&count_show='+count_show;
-
-        $.ajax({
-            url : url_page,
-            dataType: 'html'
-        }).done(function (data) {
-
-            $('.table_center').html(data);
-            window.history.pushState(url_page, '', url_page);
-            Trans.load_ajax("hide");
-
-        }).fail(function () {
-            TableBuilder.showErrorNotification("Что-то пошло не так, попробуйте позже");
-        });
+        doAjaxLoadContent(window.location.href);
+        $(".modal-backdrop").remove();
     },
 
     getCreateForm: function(){
@@ -88,7 +59,7 @@ var Trans = {
 
     doDelete : function(this_id_pages)
     {
-        $.post("/admin/translations/del_record", {id:this_id_pages },
+        $.post("/admin/translations/del_record", {id : this_id_pages },
             function(data){
                 Trans.show_list(1);
             });

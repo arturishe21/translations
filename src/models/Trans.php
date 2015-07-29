@@ -21,7 +21,7 @@ class Trans extends Model {
 
     public function getTrans()
     {
-        $res = $this->hasMany('Vis\Translations\Translate','id_translations_phrase')->get()->toArray();
+        $res = $this->hasMany('Vis\Translations\Translate', 'id_translations_phrase')->get()->toArray();
 
         if ($res) {
             foreach ($res as $k=>$el) {
