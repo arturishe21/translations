@@ -1,30 +1,30 @@
 
-1. в composer.json добавляем в блок require
+В composer.json добавляем в блок require
 ```json
  "vis/translations": "1.0.*"
 ```
 
-2. выполняем
+Выполняем
 ```json
 composer update
 ```
 
-3. добавляем в app.php
+Добавляем в app.php
 ```php
   'Vis\Translations\TranslationsServiceProvider',
 ```
 
-4. Выполняем миграцию таблиц
+Выполняем миграцию таблиц
 ```json
    php artisan migrate --package=vis/translations
 ```
 
-5. Публикуем js файлы
+Публикуем js файлы
 ```json
    php artisan asset:publish vis/translations
 ```
 
-5. в файле app/config/packages/vis/builder/admin.php в массив menu добавляем
+В файле app/config/packages/vis/builder/admin.php в массив menu добавляем
 ```php
  	array(
             'title' => 'Переводы',
