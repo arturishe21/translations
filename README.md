@@ -1,6 +1,7 @@
 1. в composer.json добавляем в блок require
+```json
  "vis/translations": "1.0.*"
-
+```
 2. выполняем composer update
 
 3. добавляем в app.php 
