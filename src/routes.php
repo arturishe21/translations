@@ -1,9 +1,5 @@
 <?php
 
-Route::post('translations/google_translate', array(
-        'as' => 'google_translate',
-        'uses' => 'Vis\Translations\TranslateController@doTranslate')
-);
 
 Route::group(array('prefix' => Config::get('builder::admin.uri'), 'before' => array('auth_admin', 'check_permissions')), function() {
 
@@ -15,7 +11,6 @@ Route::group(array('prefix' => Config::get('builder::admin.uri'), 'before' => ar
             'as' => 'phrases_all',
             'uses' => 'Vis\Translations\GenerateController@getIndex')
     );
-
 
     if (Request::ajax()) {
         Route::post('translations/create_pop', array(

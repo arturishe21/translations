@@ -26,9 +26,7 @@ class TranslateController extends Controller
     public function fetchIndex()
     {
         $search_q = Input::get("search_q");
-
         $count_show = Input::get("count_show") ? Input::get("count_show"): "20";
-
         $allpage = Trans::orderBy('id', "desc");
 
         if ($search_q) {
@@ -36,12 +34,12 @@ class TranslateController extends Controller
         }
 
         $allpage = $allpage->paginate($count_show);
-
         $breadcrumb[Config::get('translations::config.title_page')] = "";
 
-        $view = 'translations::trans';
         if (Request::ajax()) {
             $view = "translations::part.table_center";
+        } else {
+            $view = 'translations::trans';
         }
 
         $langs = Config::get('translations::config.alt_langs');
@@ -53,22 +51,15 @@ class TranslateController extends Controller
             ->with("langs", $langs)
             ->with("search_q", $search_q)
             ->with("count_show", $count_show);
-    }//end fetchIndex
+    }
 
-    /*
-     * create translate popup
-     */
     public function fetchCreate()
     {
         $langs = Config::get('translations::config.alt_langs');
-        return View::make('translations::part.form_trans')->with(
-            "langs", $langs
-        );
-    }//end fetchCreate
 
-    /*
-     * save translate
-     */
+        return View::make('translations::part.form_trans', compact("langs"));
+    }
+
     public function doSaveTranslate()
     {
         parse_str(Input::get('data'), $data);
@@ -102,9 +93,12 @@ class TranslateController extends Controller
         Trans::reCacheTrans();
 
         return Response::json(
-            array('status' => 'ok', "ok_messages" => "Фраза успешно добавлена")
+            array(
+                "status" => "ok",
+                "ok_messages" => "Фраза успешно добавлена"
+            )
         );
-    }// end doSaveTranslate
+    }
 
     public function doDelelePhrase()
     {
@@ -114,33 +108,8 @@ class TranslateController extends Controller
         Trans::reCacheTrans();
 
         return Response::json(array('status' => 'ok'));
-    } //end doDelelePhrase
+    }
 
-    /*
-     * autotranslate
-     */
-    public function doGoogleTranslate()
-    {
-
-        $lang = Input::get("lang");
-        $phrase = Input::get("phrase");
-        $langs_def = Config::get('translations::config.def_locale');
-
-        $lang = str_replace("ua", "uk", $lang);
-        $langs_def = str_replace("ua", "uk", $langs_def);
-
-        $text = GoogleTranslate::staticTranslate($phrase, $langs_def, $lang);
-
-        $lang = str_replace("uk", "ua", $lang);
-        $arr_res = array("lang" => $lang, "text" => $text);
-
-        echo json_encode($arr_res);
-
-    }//end doGoogleTranslate
-
-    /*
-     * save phrase
-     */
     public function doSavePhrase()
     {
         $lang = Input::get("name");
@@ -152,6 +121,7 @@ class TranslateController extends Controller
             $phrase_change->translate = $phrase;
             $phrase_change->save();
         }
+
         Trans::reCacheTrans();
-    }//end doSavePhrase
+    }
 }
