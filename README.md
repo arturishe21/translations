@@ -24,6 +24,11 @@ composer update
    php artisan asset:publish vis/translations
 ```
 
+Публикуем config
+```json
+   php artisan config:publish vis/translations
+```
+
 В файле app/config/packages/vis/builder/admin.php в массив menu добавляем
 ```php
  	array(
