@@ -18,7 +18,7 @@ var Trans = {
     //yandex autotranslate
     getTranslate: function(phrase)
     {
-        $( ".langs_input" ).each(function( index ) {
+        $(".langs_input" ).each(function( index ) {
             lang = $(this).attr("name");
             if (phrase && lang) {
                 $(".langs_input[name="+lang+"]").attr("placeholder","Переводит...");
@@ -93,11 +93,6 @@ $(document).on("submit", '#search_form', function(){
             $('.table_center').html(data);
         });
     return false;
-});
-
-$(document).on('click', '.pagination a', function (e) {
-    Trans.show_list($(this).attr('href').split('page=')[1]);
-    e.preventDefault();
 });
 
 $(document).ready(function(){

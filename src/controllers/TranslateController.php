@@ -26,7 +26,7 @@ class TranslateController extends Controller
     public function fetchIndex()
     {
         $search_q = Input::get("search_q");
-        $count_show = Input::get("count_show") ? Input::get("count_show"): "20";
+        $count_show = Input::get("count_show") ? Input::get("count_show"): "3";
         $allpage = Trans::orderBy('id', "desc");
 
         if ($search_q) {
