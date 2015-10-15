@@ -10,5 +10,6 @@ class Translate extends Model {
 
     public $timestamps = false;
 
+    protected $fillable = array('id_translations_phrase', 'lang', 'translate');
 
 }

@@ -75,7 +75,7 @@ class TranslateController extends Controller
         }
 
         $model = new  Trans;
-        $model->phrase = trim($data['phrase']);
+        $model->phrase = strip_tags(str_replace('"', '', trim($data['phrase'])));
         $model->save();
 
         $langs = Config::get('translations::config.alt_langs');
@@ -118,8 +118,19 @@ class TranslateController extends Controller
 
         if ($id && $phrase && $lang) {
             $phrase_change = Translate::where("id_translations_phrase", $id)->where("lang", $lang)->first();
-            $phrase_change->translate = $phrase;
-            $phrase_change->save();
+            if (isset($phrase_change->id)) {
+                $phrase_change->translate = $phrase;
+                $phrase_change->save();
+            } else {
+                Translate::create(
+                    [
+                        "id_translations_phrase" => $id,
+                        "lang" => $lang,
+                        "translate" => $phrase,
+                    ]
+                );
+            }
+
         }
 
         Trans::reCacheTrans();

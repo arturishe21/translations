@@ -45,61 +45,61 @@
                 </div>
 
                   <table class="table  table-hover table-bordered " id="sort_t">
-                                     <thead>
-                                         <tr>
+                     <thead>
+                         <tr>
 
-                                             <th style="width: 25%">{{__cms('Фраза')}}</th>
-                                             <th>{{__cms('Код')}}</th>
-                                             <th>{{__cms('Переводы')}}</th>
-                                             <th style="width: 50px">
-                                                 <a class="btn btn-sm btn-success" categor="0" onclick="Trans.getCreateForm(this);">
-                                                   <i class="fa fa-plus"></i> {{__cms("Создать")}}
-                                                 </a>
+                             <th style="width: 25%">{{__cms('Фраза')}}</th>
+                             <th>{{__cms('Код')}}</th>
+                             <th>{{__cms('Переводы')}}</th>
+                             <th style="width: 50px">
+                                 <a class="btn btn-sm btn-success" categor="0" onclick="Trans.getCreateForm(this);">
+                                   <i class="fa fa-plus"></i> {{__cms("Создать")}}
+                                 </a>
 
-                                             </th>
-                                         </tr>
-                                     </thead>
-                                     <tbody >
-
-                           @forelse($data as $k=>$el )
-                                <tr class="tr_{{$el->id}} " id_page="{{$el->id}}">
-
-                                    <td style="text-align: left;">
-                                        {{$el->phrase}}
-                                    </td>
-                                    <td>__("{{$el->phrase}}")</td>
-
-                                    <td style="text-align: left">
-                                         <?
-                                         $trans = $el->getTrans();
-                                         ?>
-                                          @foreach($langs as $k_lang=>$el_lang)
-                                            <p>
-                                                 <img class="flag flag-{{$el_lang}}" style="margin-right: 5px">
-                                                 <a data-type="textarea" class="lang_change" data-pk="{{$el->id}}"  data-name="{{$el_lang}}" data-original-title="{{__cms('Язык')}}: {{$el_lang}}">{{$trans[$el_lang]}}</a>
-                                             </p>
-                                          @endforeach
-                                    </td>
-                                    <td>
-                                        <div class="btn-group hidden-phone pull-right">
-                                            <a class="btn dropdown-toggle btn-xs btn-default"  data-toggle="dropdown"><i class="fa fa-cog"></i> <i class="fa fa-caret-down"></i></a>
-                                            <ul class="dropdown-menu pull-right" id_rec ="{{$el->id}}">
-                                                 <li>
-                                                     <a onclick="Trans.doDelete({{$el->id}});"><i class="fa red fa-times"></i> {{__cms('Удалить')}}</a>
-                                                 </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                          <tr>
-                             <td colspan="5"  class="text-align-center">
-                                 {{__cms('Пусто')}}
-                              </td>
+                             </th>
                          </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                     </thead>
+                     <tbody >
+
+                   @forelse($data as $k=>$el )
+                        <tr class="tr_{{$el->id}} " id_page="{{$el->id}}">
+
+                            <td style="text-align: left;">
+                                {{$el->phrase}}
+                            </td>
+                            <td>__("{{$el->phrase}}")</td>
+
+                            <td style="text-align: left">
+                                 <?
+                                 $trans = $el->getTrans();
+                                 ?>
+                                  @foreach($langs as $k_lang=>$el_lang)
+                                    <p>
+                                         <img class="flag flag-{{$el_lang}}" style="margin-right: 5px">
+                                         <a data-type="textarea" class="lang_change" data-pk="{{$el->id}}"  data-name="{{$el_lang}}" data-original-title="{{__cms('Язык')}}: {{$el_lang}}">{{$trans[$el_lang] or ""}}</a>
+                                     </p>
+                                  @endforeach
+                            </td>
+                            <td>
+                                <div class="btn-group hidden-phone pull-right">
+                                    <a class="btn dropdown-toggle btn-xs btn-default"  data-toggle="dropdown"><i class="fa fa-cog"></i> <i class="fa fa-caret-down"></i></a>
+                                    <ul class="dropdown-menu pull-right" id_rec ="{{$el->id}}">
+                                         <li>
+                                             <a onclick="Trans.doDelete({{$el->id}});"><i class="fa red fa-times"></i> {{__cms('Удалить')}}</a>
+                                         </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                  <tr>
+                     <td colspan="5"  class="text-align-center">
+                         {{__cms('Пусто')}}
+                      </td>
+                 </tr>
+            @endforelse
+            </tbody>
+        </table>
 
               <div class="dt-toolbar-footer">
                   <div class="col-sm-6 col-xs-12 hidden-xs">
