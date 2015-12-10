@@ -13,3 +13,10 @@ function __($phrase) {
         return $phrase;
     }
 }
+
+  function cmp($a, $b) {
+        if ($a == $b) {
+            return 0;
+        }
+        return ( strlen($a) < strlen($b)) ? -1 : 1;
+    }
