@@ -18,7 +18,7 @@ var Trans = {
     //yandex autotranslate
     getTranslate: function(phrase)
     {
-        $(".langs_input" ).each(function( index ) {
+        $( ".langs_input" ).each(function( index ) {
             lang = $(this).attr("name");
             if (phrase && lang) {
                 $(".langs_input[name="+lang+"]").attr("placeholder","Переводит...");
@@ -77,6 +77,18 @@ var Trans = {
         } else {
             $(".load_ajax").hide();
         }
+    },
+
+    loadEditable : function()
+    {
+        $('.lang_change').editable2({
+            url: '/admin/translations/change_text_lang',
+            type: 'text',
+            pk: 1,
+            id: "",
+            name: 'username',
+            title: 'Enter username'
+        });
     }
 
 }
@@ -85,23 +97,22 @@ $(document).on("change", '[name=dt_basic_length]', function(){
     Trans.show_list("1", $(this).val());
 });
 
-$(document).on("submit", '#search_form', function(){
+$(document).on("keyup", '[name=search_q]', function(){
     var search_q = $("[type=search]").val();
 
-    $.get(window.location.pathname, {search_q:search_q, "page":1},
-        function(data){
-            $('.table_center').html(data);
-        });
-    return false;
+    if (search_q.length > 2) {
+        $(".load_page").show();
+        $.post( window.location.pathname, {search_q : search_q, page : 1 })
+            .done(function( data ) {
+                $(".result_table").html(data);
+                $(".load_page").hide();
+            }).fail(function(xhr, ajaxOptions, thrownError) {
+                var errorResult = jQuery.parseJSON(xhr.responseText);
+                TableBuilder.showErrorNotification(errorResult.message);
+            });
+    }
 });
 
 $(document).ready(function(){
-    $('.lang_change').editable2({
-        url: '/admin/translations/change_text_lang',
-        type: 'text',
-        pk: 1,
-        id: "",
-        name: 'username',
-        title: 'Enter username'
-    });
+    Trans.loadEditable();
 });
