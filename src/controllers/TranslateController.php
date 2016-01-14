@@ -26,7 +26,7 @@ class TranslateController extends Controller
     public function fetchIndex()
     {
 
-        if (Input::get("search_q") && mb_strlen(Input::get("search_q")) > 2 ) {
+        if (Input::get("search_q") && mb_strlen(Input::get("search_q")) > 1 ) {
             return $this->doSearch();
         }
 
@@ -59,16 +59,10 @@ class TranslateController extends Controller
         $langs = Config::get('translations::config.alt_langs');
         $countShow = Input::get("count_show") ? Input::get("count_show"): Config::get('translations::config.show_count')[0];
 
-        $allPage = Trans::select(DB::raw('MATCH (phrase) AGAINST ("'.$querySearch.'") as weight, phrase, id'))
-                         ->whereRaw('MATCH (phrase) AGAINST ("'.$querySearch.'") > 0')
-                         ->orderBy("weight", "desc")->paginate($countShow);
-
-        if (count($allPage) == 0) {
-            $allPage = Trans::orderBy('id', "desc")->paginate($countShow);
-        }
+        $allPage = Trans::where('phrase' , 'like', "%".$querySearch."%")
+                         ->orderBy("id", "desc")->paginate($countShow);
 
         return View::make("translations::part.result_search", compact("allPage", "langs"));
-
     }
 
     public function fetchCreate()

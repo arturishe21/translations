@@ -100,7 +100,7 @@ $(document).on("change", '[name=dt_basic_length]', function(){
 $(document).on("keyup", '[name=search_q]', function(){
     var search_q = $("[type=search]").val();
 
-    if (search_q.length > 2) {
+    if (search_q.length > 1) {
         $(".load_page").show();
         $.post( window.location.pathname, {search_q : search_q, page : 1 })
             .done(function( data ) {
