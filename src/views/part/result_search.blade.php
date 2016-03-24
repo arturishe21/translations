@@ -24,7 +24,7 @@
                 <td>__("{{$el->phrase}}")</td>
 
                 <td style="text-align: left">
-                     <?
+                     <?php
                      $trans = $el->getTrans();
                      ?>
                       @foreach($langs as $k_lang=>$el_lang)
