@@ -1,7 +1,7 @@
 <?php
 return array(
-    //default language
-    'def_locale' => 'ru',
+   //default language
+   'def_locale' => 'ru',
 
     //other language
    'alt_langs'=>  array ("Рус"=>"ru", "Укр"=>"ua", 'Eng'=>"en"),

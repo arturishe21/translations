@@ -5,6 +5,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Yandex\Translate\Translator;
 
 class Trans extends Model {
 
@@ -47,6 +48,68 @@ class Trans extends Model {
         }
 
         return $array_translate;
+    }
+
+    public static function generateTranslation($phrase, $thisLang)
+    {
+        if ($phrase && $thisLang) {
+
+            $checkPresentPhrase = self::where("phrase", "like", $phrase)->first();
+            if (!isset($checkPresentPhrase->id)) {
+                $newPhrase = self::create (["phrase" => $phrase]);
+
+                try {
+
+                    $langsDef = Config::get ('translations::config.def_locale');
+                    $langsAll = Config::get ('translations::config.alt_langs');
+
+                    foreach ($langsAll as $lang) {
+
+                        $lang = str_replace ("ua", "uk", $lang);
+                        $langsDef = str_replace ("ua", "uk", $langsDef);
+
+                        $translator = new Translator(Config::get ('builder::translate_cms.api_yandex_key'));
+                        $translation = $translator->translate ($phrase, $langsDef . '-' . $lang);
+                        $lang = str_replace ("uk", "ua", $lang);
+
+                        if (isset($translation->getResult ()[0])) {
+                            Translate::create (
+                                [
+                                    "id_translations_phrase" => $newPhrase->id,
+                                    "lang" => $lang,
+                                    "translate" => $translation->getResult ()[0],
+                                ]
+                            );
+
+                        } else {
+                            return "error.No get results";
+                        }
+                    }
+
+                } catch (Yandex\Translate\Exception $e) {
+                    return $e->getMessage ();
+                    // handle exception
+                }
+                self::reCacheTrans ();
+                $arrayTranslate = Trans::fillCacheTrans ();
+
+                if (isset($arrayTranslate[$phrase][$thisLang])) {
+                    $phraseReturn = $arrayTranslate[$phrase][$thisLang];
+                } else {
+                    $phraseReturn = "Ошибка перевода";
+                }
+
+                return $phraseReturn;
+            } else {
+               $translatePhrase = Translate::where("id_translations_phrase", $checkPresentPhrase->id)
+                           ->where("lang", "like", $thisLang)->first();
+               if (isset($translatePhrase->translate))  {
+
+                   return $translatePhrase->translate;
+               }
+            }
+        }
+
     }
 
     /* recache translate

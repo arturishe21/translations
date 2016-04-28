@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
-use Vis\Translations\GoogleTranslate;
-use Vis\Translations\Translate;
+use Yandex\Translate\Translator;
 
 class TranslateController extends Controller
 {
@@ -25,7 +24,6 @@ class TranslateController extends Controller
      */
     public function fetchIndex()
     {
-
         if (Input::get("search_q") && mb_strlen(Input::get("search_q")) > 1 ) {
             return $this->doSearch();
         }
@@ -115,7 +113,7 @@ class TranslateController extends Controller
     public function doDelelePhrase()
     {
         $id_record = Input::get("id");
-        $record = Trans::find($id_record)->delete();
+        Trans::find($id_record)->delete();
 
         Trans::reCacheTrans();
 
