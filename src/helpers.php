@@ -1,7 +1,7 @@
 <?php
 use Vis\Translations\Trans;
 
-//get translate
+//get translate 
 function __($phrase, array $replacePhrase = []) {
     $thisLang = Lang::locale();
     $arrayTranslate =  Trans::fillCacheTrans();
